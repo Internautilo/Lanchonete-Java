@@ -1,6 +1,6 @@
 package Database;
 
-import java.sql.Connection;
+import java.sql.*;
 
 public class DBConnection {
 	
@@ -18,6 +18,8 @@ public class DBConnection {
 		this.schema = schema;
 		this.name = name;
 		this.password = password;
+		
+		this.connect();
 	}
 	
 	public DBConnection() {
@@ -26,5 +28,22 @@ public class DBConnection {
 		this.schema = "lanchonete";
 		this.name = "root";
 		this.password = "";
+		
+		this.connect();
+	}
+	
+	public Connection getConnection() {
+		return this.connection;
+	}
+	
+	private void connect() {
+		try {
+			String timezone = "?useTimezone=true&serverTimezone=UTC";
+			String url = "jdbc:mysql://" + this.host + ":" + this.port + "/" + this.schema + timezone;
+			this.connection = DriverManager.getConnection(url, this.name, this.password);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
