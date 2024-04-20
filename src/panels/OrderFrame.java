@@ -34,6 +34,7 @@ public class OrderFrame extends JFrame {
 		DELETE
 	}
 
+	// Frame Components
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textClientName;
@@ -55,6 +56,9 @@ public class OrderFrame extends JFrame {
 	private JComboBox<String> Field2;
 	private JLabel lblField3;
 	private JComboBox<String> Field3;
+	
+	private double totalPedido;
+	private double taxaServico;
 
 	/**
 	 * Launch the application.
@@ -115,6 +119,20 @@ public class OrderFrame extends JFrame {
 		
 		CloseOrderBtn();
 		BackToMenuBtn();
+	}
+	
+	private void calculaTaxaServico() {
+		double items = this.pratos.size();
+		this.taxaServico = items * 4.55;
+	}
+	
+	private void calculaTotalPedido() {
+		double precoItems = 0;
+		for (Prato prato : this.pratos) {
+			double preco = prato.getPrice();
+			precoItems += preco;
+		}
+		this.totalPedido = precoItems;
 	}
 	
 	private void SetContentPane() {
@@ -209,7 +227,10 @@ public class OrderFrame extends JFrame {
 					listModel.addItem(salgado);
 					break;
 				}
-				
+				calculaTaxaServico();
+				calculaTotalPedido();
+				textServiceTax.setText(String.valueOf(taxaServico));
+				textTotal.setText(String.valueOf(totalPedido));
 			}
 		});
 		contentPane.add(btnAddItem);
