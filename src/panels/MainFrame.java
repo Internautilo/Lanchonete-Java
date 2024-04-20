@@ -69,4 +69,16 @@ public class MainFrame extends JFrame {
 		contentPane.add(btnEditOrder);
 		contentPane.add(btnDeleteOrder);
 	}
+	
+	public void Start() {
+		try {
+		setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void Stop() {
+		dispose();
+	}
 }
