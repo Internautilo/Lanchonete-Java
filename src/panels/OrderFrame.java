@@ -6,7 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import models.Lanche;
+import models.Pizza;
 import models.Prato;
+import models.Salgado;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -39,10 +42,9 @@ public class OrderFrame extends JFrame {
 	private JButton btnBackToMenu;
 	
 	
-	
-	
 	// Lista de Pratos do pedido
-	public ArrayList<Prato> pratos;
+	public ArrayList<Prato> pratos = new ArrayList<Prato>();
+	private JComboBox<String> ItemTypeComboBox;
 	private JLabel lblField1;
 	private JComboBox<String> Field1;
 	private JLabel lblField2;
@@ -139,7 +141,7 @@ public class OrderFrame extends JFrame {
 		// Product List
 		lblList = new JLabel("Itens Comprados");
 		lblList.setBounds(242, 76, 400, 14);
-		JList list = new JList();
+		JList<Prato> list = new JList<Prato>();
 		list.setBounds(242, 100, 400, 87);
 		list.setLayoutOrientation(JList.VERTICAL_WRAP);
 		contentPane.add(lblList);
@@ -148,8 +150,62 @@ public class OrderFrame extends JFrame {
 		// Add Item
 		JButton btnAddItem = new JButton("Adicionar Items");
 		btnAddItem.setBounds(242, 470, 150, 23);
+		
 		btnAddItem.addActionListener(new ActionListener() {
+			String selectedItem;
+			String field1Str;
+			String field2Str;
+			String field3Str;
+			
+	        Lanche.Recheio recheioLanche;
+	        Lanche.Molho molhoLanche;
+	        Lanche.TipoPao tipoPaoLanche;
+	        
+	        Pizza.Recheio recheioPizza;
+	        Pizza.Molho molhoPizza;
+	        Pizza.Borda bordaPizza;
+	        
+	        Salgado.Tipo tipoSalgado;
+	        Salgado.Massa massaSalgado;
+	        Salgado.Recheio recheioSalgado;
+	        
+	        Lanche lanche;
+	        Pizza pizza;
+	        Salgado salgado;
 			public void actionPerformed(ActionEvent e) {
+				selectedItem = ItemTypeComboBox.getSelectedItem().toString().toUpperCase();
+				field1Str = Field1.getSelectedItem().toString().toUpperCase();
+		        field2Str = Field2.getSelectedItem().toString().toUpperCase();
+		        field3Str = Field3.getSelectedItem().toString().toUpperCase();
+				switch ( selectedItem ) {
+				case "LANCHE" :
+					tipoPaoLanche = Lanche.TipoPao.valueOf(field1Str);
+			        recheioLanche = Lanche.Recheio.valueOf(field2Str);
+			        molhoLanche = Lanche.Molho.valueOf(field3Str);
+					lanche = new Lanche(tipoPaoLanche, recheioLanche, molhoLanche);
+					
+					pratos.add(lanche);
+					break;
+				
+				case "PIZZA" :
+					recheioPizza = Pizza.Recheio.valueOf(field1Str);
+					molhoPizza = Pizza.Molho.valueOf(field2Str);
+					bordaPizza = Pizza.Borda.valueOf(field3Str);
+					pizza = new Pizza(recheioPizza, molhoPizza, bordaPizza);
+					
+					pratos.add(pizza);
+					break;
+					
+				case "SALGADO" :
+					tipoSalgado = Salgado.Tipo.valueOf(field1Str);
+					massaSalgado = Salgado.Massa.valueOf(field2Str);
+					recheioSalgado = Salgado.Recheio.valueOf(field3Str);
+					salgado = new Salgado(tipoSalgado, massaSalgado, recheioSalgado);
+					
+					pratos.add(salgado);
+					break;
+				}
+				System.out.println(pratos);
 			}
 		});
 		contentPane.add(btnAddItem);
@@ -241,36 +297,36 @@ public class OrderFrame extends JFrame {
 	
 	// Insert Item Selection Combo Box for adding products to the list
 	private void ItemTypeComboBox() {
-		JComboBox<String> ItemTypeComboBox = new JComboBox<String>();
-		ItemTypeComboBox.setBounds(242, 198, 400, 22);
+		ItemTypeComboBox = new JComboBox<String>();
+		ItemTypeComboBox.setBounds(242, 221, 400, 22);
 		ItemTypeComboBox.addItem("Lanche");
 		ItemTypeComboBox.addItem("Pizza");
 		ItemTypeComboBox.addItem("Salgado");
 		
 		lblField1 = new JLabel("");
-		lblField1.setBounds(242, 239, 400, 14);
+		lblField1.setBounds(242, 262, 400, 14);
 		contentPane.add(lblField1);
 		
 		Field1 = new JComboBox<String>();
-		Field1.setBounds(242, 264, 400, 22);
+		Field1.setBounds(242, 287, 400, 22);
 		contentPane.add(Field1);
 		
 		
 		lblField2 = new JLabel("");
-		lblField2.setBounds(242, 297, 400, 14);
+		lblField2.setBounds(242, 320, 400, 14);
 		contentPane.add(lblField2);
 		
 		Field2 = new JComboBox<String>();
-		Field2.setBounds(242, 322, 400, 22);
+		Field2.setBounds(242, 345, 400, 22);
 		contentPane.add(Field2);
 		
 		
 		lblField3 = new JLabel("");
-		lblField3.setBounds(242, 355, 400, 14);
+		lblField3.setBounds(242, 378, 400, 14);
 		contentPane.add(lblField3);
 		
 		Field3 = new JComboBox<String>();
-		Field3.setBounds(242, 380, 400, 22);
+		Field3.setBounds(242, 403, 400, 22);
 		contentPane.add(Field3);
 		
 		ItemTypeComboBox.addActionListener(new ActionListener() {
