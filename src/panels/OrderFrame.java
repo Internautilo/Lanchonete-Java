@@ -9,16 +9,20 @@ import javax.swing.border.EmptyBorder;
 import models.Lanche;
 import models.Pizza;
 import models.Prato;
+import models.PratoListModel;
 import models.Salgado;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Set;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.JList;
 import javax.swing.JComboBox;
 
@@ -141,7 +145,8 @@ public class OrderFrame extends JFrame {
 		// Product List
 		lblList = new JLabel("Itens Comprados");
 		lblList.setBounds(242, 76, 400, 14);
-		JList<Prato> list = new JList<Prato>();
+		PratoListModel listModel = new PratoListModel(pratos);
+		JList<Prato> list = new JList<>(listModel);
 		list.setBounds(242, 100, 400, 87);
 		list.setLayoutOrientation(JList.VERTICAL_WRAP);
 		contentPane.add(lblList);
@@ -160,18 +165,17 @@ public class OrderFrame extends JFrame {
 	        Lanche.Recheio recheioLanche;
 	        Lanche.Molho molhoLanche;
 	        Lanche.TipoPao tipoPaoLanche;
+	        Lanche lanche;
 	        
 	        Pizza.Recheio recheioPizza;
 	        Pizza.Molho molhoPizza;
 	        Pizza.Borda bordaPizza;
+	        Pizza pizza;
 	        
 	        Salgado.Tipo tipoSalgado;
 	        Salgado.Massa massaSalgado;
 	        Salgado.Recheio recheioSalgado;
-	        
-	        Lanche lanche;
-	        Pizza pizza;
-	        Salgado salgado;
+	        Salgado salgado;	        
 			public void actionPerformed(ActionEvent e) {
 				selectedItem = ItemTypeComboBox.getSelectedItem().toString().toUpperCase();
 				field1Str = Field1.getSelectedItem().toString().toUpperCase();
@@ -183,8 +187,8 @@ public class OrderFrame extends JFrame {
 			        recheioLanche = Lanche.Recheio.valueOf(field2Str);
 			        molhoLanche = Lanche.Molho.valueOf(field3Str);
 					lanche = new Lanche(tipoPaoLanche, recheioLanche, molhoLanche);
-					
 					pratos.add(lanche);
+					listModel.addItem(lanche);
 					break;
 				
 				case "PIZZA" :
@@ -192,8 +196,8 @@ public class OrderFrame extends JFrame {
 					molhoPizza = Pizza.Molho.valueOf(field2Str);
 					bordaPizza = Pizza.Borda.valueOf(field3Str);
 					pizza = new Pizza(recheioPizza, molhoPizza, bordaPizza);
-					
 					pratos.add(pizza);
+					listModel.addItem(pizza);
 					break;
 					
 				case "SALGADO" :
@@ -201,11 +205,11 @@ public class OrderFrame extends JFrame {
 					massaSalgado = Salgado.Massa.valueOf(field2Str);
 					recheioSalgado = Salgado.Recheio.valueOf(field3Str);
 					salgado = new Salgado(tipoSalgado, massaSalgado, recheioSalgado);
-					
 					pratos.add(salgado);
+					listModel.addItem(salgado);
 					break;
 				}
-				System.out.println(pratos);
+				
 			}
 		});
 		contentPane.add(btnAddItem);
