@@ -59,6 +59,7 @@ public class OrderFrame extends JFrame {
 	
 	private double totalPedido;
 	private double taxaServico;
+	private NotaFiscalFrame nfFrame;
 
 	/**
 	 * Launch the application.
@@ -132,7 +133,7 @@ public class OrderFrame extends JFrame {
 			double preco = prato.getPrice();
 			precoItems += preco;
 		}
-		this.totalPedido = precoItems;
+		this.totalPedido = precoItems + this.taxaServico;
 	}
 	
 	private void SetContentPane() {
@@ -291,6 +292,12 @@ public class OrderFrame extends JFrame {
 		btnCloseOrder.setBounds(242, 615, 400, 23);
 		btnCloseOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String nomeCliente = textClientName.getText().toString();
+				String valorServico = textServiceTax.getText().toString();
+				String valorTotal = textTotal.getText().toString();				
+				
+				nfFrame = new NotaFiscalFrame(nomeCliente, valorTotal, valorTotal);
+				nfFrame.setVisible(true);
 			}
 		});
 		contentPane.add(btnCloseOrder);
