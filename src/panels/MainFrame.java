@@ -1,6 +1,9 @@
 package panels;
 
 import javax.swing.*;
+
+import panels.OrderFrame.Mode;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -40,6 +43,9 @@ public class MainFrame extends JFrame {
 		btnNewOrder.setBounds(355, 192, 212, 67);
 		btnNewOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				OrderFrame frame = new OrderFrame( Mode.CREATE );
+				dispose();
+				frame.setVisible(true);
 			}
 		});
 		
