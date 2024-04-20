@@ -39,9 +39,16 @@ public class OrderFrame extends JFrame {
 	private JButton btnBackToMenu;
 	
 	
+	
+	
 	// Lista de Pratos do pedido
 	public ArrayList<Prato> pratos;
-	private JComboBox Field1;
+	private JLabel lblField1;
+	private JComboBox<String> Field1;
+	private JLabel lblField2;
+	private JComboBox<String> Field2;
+	private JLabel lblField3;
+	private JComboBox<String> Field3;
 
 	/**
 	 * Launch the application.
@@ -194,10 +201,6 @@ public class OrderFrame extends JFrame {
 		});
 		btnBackToMenu.setBounds(272, 699, 339, 23);
 		contentPane.add(btnBackToMenu);
-		
-		
-		
-		
 	}
 	
 	// Insert Close Order Button
@@ -244,29 +247,29 @@ public class OrderFrame extends JFrame {
 		ItemTypeComboBox.addItem("Pizza");
 		ItemTypeComboBox.addItem("Salgado");
 		
-		JLabel lblField1 = new JLabel("");
+		lblField1 = new JLabel("");
 		lblField1.setBounds(242, 239, 400, 14);
 		contentPane.add(lblField1);
 		
-		JComboBox<String> Field1 = new JComboBox<String>();
+		Field1 = new JComboBox<String>();
 		Field1.setBounds(242, 264, 400, 22);
 		contentPane.add(Field1);
 		
 		
-		JLabel lblField2 = new JLabel("");
+		lblField2 = new JLabel("");
 		lblField2.setBounds(242, 297, 400, 14);
 		contentPane.add(lblField2);
 		
-		JComboBox<String> Field2 = new JComboBox<String>();
+		Field2 = new JComboBox<String>();
 		Field2.setBounds(242, 322, 400, 22);
 		contentPane.add(Field2);
 		
 		
-		JLabel lblField3 = new JLabel("");
+		lblField3 = new JLabel("");
 		lblField3.setBounds(242, 355, 400, 14);
 		contentPane.add(lblField3);
 		
-		JComboBox<String> Field3 = new JComboBox<String>();
+		Field3 = new JComboBox<String>();
 		Field3.setBounds(242, 380, 400, 22);
 		contentPane.add(Field3);
 		
