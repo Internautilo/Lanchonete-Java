@@ -5,14 +5,19 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import models.Prato;
+
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Set;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JList;
+import javax.swing.JComboBox;
 
 public class OrderFrame extends JFrame {
 	
@@ -32,6 +37,11 @@ public class OrderFrame extends JFrame {
 	private JTextField textTotal;
 	private JLabel lblTotal;
 	private JButton btnBackToMenu;
+	
+	
+	// Lista de Pratos do pedido
+	public ArrayList<Prato> pratos;
+	private JComboBox Field1;
 
 	/**
 	 * Launch the application.
@@ -40,7 +50,7 @@ public class OrderFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					OrderFrame frame = new OrderFrame(Mode.EDIT);
+					OrderFrame frame = new OrderFrame(Mode.CREATE);
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -54,11 +64,12 @@ public class OrderFrame extends JFrame {
 	 * Create the frame.
 	 */
 		
-	public OrderFrame( Mode mode) {
+	public OrderFrame( Mode mode ) {
 		SetContentPane();
 		
 		ClientNameField();
 		ProductList();
+		ItemTypeComboBox();
 		ServiceTaxField();
 		TotalField();
 		
@@ -85,6 +96,7 @@ public class OrderFrame extends JFrame {
 		
 		ClientNameField();
 		ProductList();
+		ItemTypeComboBox();
 		ServiceTaxField();
 		TotalField();
 		
@@ -106,9 +118,9 @@ public class OrderFrame extends JFrame {
 	private void ClientNameField() {
 		// Client Name
 		lblClientName = new JLabel("Nome Cliente");
-		lblClientName.setBounds(242, 170, 400, 14);
+		lblClientName.setBounds(242, 22, 400, 14);
 		textClientName = new JTextField();
-		textClientName.setBounds(242, 194, 400, 20);
+		textClientName.setBounds(242, 46, 400, 20);
 		textClientName.setColumns(30);
 		contentPane.add(lblClientName);
 		contentPane.add(textClientName);
@@ -119,16 +131,16 @@ public class OrderFrame extends JFrame {
 	private void ProductList() {
 		// Product List
 		lblList = new JLabel("Itens Comprados");
-		lblList.setBounds(242, 224, 400, 14);
+		lblList.setBounds(242, 76, 400, 14);
 		JList list = new JList();
-		list.setBounds(242, 248, 400, 87);
+		list.setBounds(242, 100, 400, 87);
 		list.setLayoutOrientation(JList.VERTICAL_WRAP);
 		contentPane.add(lblList);
 		contentPane.add(list);
 		
 		// Add Item
 		JButton btnAddItem = new JButton("Adicionar Items");
-		btnAddItem.setBounds(242, 346, 150, 23);
+		btnAddItem.setBounds(242, 470, 150, 23);
 		btnAddItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -137,7 +149,7 @@ public class OrderFrame extends JFrame {
 		
 		// Delete Item
 		JButton btnDeleteItem = new JButton("Remover Item");
-		btnDeleteItem.setBounds(492, 346, 150, 23);
+		btnDeleteItem.setBounds(492, 470, 150, 23);
 		btnDeleteItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -149,10 +161,11 @@ public class OrderFrame extends JFrame {
 	private void ServiceTaxField() {
 		// Service Tax
 		lblServiceTax = new JLabel("Taxa de Serviço");
-		lblServiceTax.setBounds(242, 388, 150, 14);
+		lblServiceTax.setBounds(242, 512, 150, 14);
 		textServiceTax = new JTextField();
-		textServiceTax.setBounds(242, 408, 150, 20);
+		textServiceTax.setBounds(242, 532, 150, 20);
 		textServiceTax.setColumns(30);
+		textServiceTax.setEditable(false);
 		contentPane.add(lblServiceTax);
 		contentPane.add(textServiceTax);
 	}
@@ -161,11 +174,12 @@ public class OrderFrame extends JFrame {
 	private void TotalField() {
 		// Total
 		lblTotal = new JLabel("Total");
-		lblTotal.setBounds(492, 388, 150, 14);
+		lblTotal.setBounds(492, 512, 150, 14);
 		lblTotal.setHorizontalAlignment(SwingConstants.TRAILING);
 		textTotal = new JTextField();
-		textTotal.setBounds(492, 408, 150, 20);
+		textTotal.setBounds(492, 532, 150, 20);
 		textTotal.setColumns(30);
+		textTotal.setEditable(false);
 		contentPane.add(lblTotal);
 		contentPane.add(textTotal);
 	}
@@ -178,15 +192,19 @@ public class OrderFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnBackToMenu.setBounds(272, 575, 339, 23);
+		btnBackToMenu.setBounds(272, 699, 339, 23);
 		contentPane.add(btnBackToMenu);
+		
+		
+		
+		
 	}
 	
 	// Insert Close Order Button
 	private void CloseOrderBtn() {
 		// Close Order
 		JButton btnCloseOrder = new JButton("Gerar Nota Fiscal e finalizar pedido");
-		btnCloseOrder.setBounds(242, 491, 400, 23);
+		btnCloseOrder.setBounds(242, 615, 400, 23);
 		btnCloseOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -216,5 +234,120 @@ public class OrderFrame extends JFrame {
 			}
 		});
 		contentPane.add(btnDelete);					
+	}
+	
+	// Insert Item Selection Combo Box for adding products to the list
+	private void ItemTypeComboBox() {
+		JComboBox<String> ItemTypeComboBox = new JComboBox<String>();
+		ItemTypeComboBox.setBounds(242, 198, 400, 22);
+		ItemTypeComboBox.addItem("Lanche");
+		ItemTypeComboBox.addItem("Pizza");
+		ItemTypeComboBox.addItem("Salgado");
+		
+		JLabel lblField1 = new JLabel("");
+		lblField1.setBounds(242, 239, 400, 14);
+		contentPane.add(lblField1);
+		
+		JComboBox<String> Field1 = new JComboBox<String>();
+		Field1.setBounds(242, 264, 400, 22);
+		contentPane.add(Field1);
+		
+		
+		JLabel lblField2 = new JLabel("");
+		lblField2.setBounds(242, 297, 400, 14);
+		contentPane.add(lblField2);
+		
+		JComboBox<String> Field2 = new JComboBox<String>();
+		Field2.setBounds(242, 322, 400, 22);
+		contentPane.add(Field2);
+		
+		
+		JLabel lblField3 = new JLabel("");
+		lblField3.setBounds(242, 355, 400, 14);
+		contentPane.add(lblField3);
+		
+		JComboBox<String> Field3 = new JComboBox<String>();
+		Field3.setBounds(242, 380, 400, 22);
+		contentPane.add(Field3);
+		
+		ItemTypeComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String item = ItemTypeComboBox.getSelectedItem().toString();				
+				switch (item) {
+				
+				case "Lanche" : // Default mode equals "Lanche"
+					Field1.removeAllItems();
+					Field2.removeAllItems();
+					Field3.removeAllItems();
+				
+					lblField1.setText("Tipo de Pão");
+					Field1.addItem("Brioche");
+					Field1.addItem("Integral");
+					Field1.addItem("Artesanal");
+					
+					lblField2.setText("Recheio");
+					Field2.addItem("Hamburguer");
+					Field2.addItem("Frango");
+					Field2.addItem("Bacon");
+					
+					lblField3.setText("Molho");
+					Field3.addItem("Tomate");
+					Field3.addItem("Barbecue");
+					Field3.addItem("Especial");
+
+					repaint();
+					break;	
+				
+				case "Pizza" :
+					Field1.removeAllItems();
+					Field2.removeAllItems();
+					Field3.removeAllItems();
+					
+					lblField1.setText("Recheio");
+					Field1.addItem("Mussarela");
+					Field1.addItem("Calabresa");
+					Field1.addItem("Frango");
+					Field1.addItem("Toscana");
+					
+					lblField2.setText("Molho");
+					Field2.addItem("Tomate");
+					Field2.addItem("Parisiense");
+					Field2.addItem("Picante");
+					
+					lblField3.setText("Borda");
+					Field3.addItem("Padrao");
+					Field3.addItem("Catupiry");
+					Field3.addItem("Cheddar");
+					
+					repaint();
+					break;
+					
+				case "Salgado" :
+					Field1.removeAllItems();
+					Field2.removeAllItems();
+					Field3.removeAllItems();
+					
+					lblField1.setText("Tipo");
+					Field1.addItem("Assado");
+					Field1.addItem("Frito");
+					
+					lblField2.setText("Massa");
+					Field2.addItem("Trigo");
+					Field2.addItem("Queijo");
+					Field2.addItem("Kibe");
+					
+					lblField3.setText("Recheio");
+					Field3.addItem("Frango");
+					Field3.addItem("Salsicha");
+					Field3.addItem("Queijo");
+					Field3.addItem("Carne");					
+					
+					repaint();
+					break;
+					
+				}
+			}
+		});
+		contentPane.add(ItemTypeComboBox);
 	}
 }
